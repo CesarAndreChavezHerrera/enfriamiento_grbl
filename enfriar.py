@@ -3,7 +3,9 @@ import pyautogui as pt
 import os
 import time
 
-timpo = 1
+tiempo_trabajo = 1
+tiempo_dormir = 1
+salir = True
 
 busqueda = {
     "play":"controll/play.png",
@@ -17,12 +19,34 @@ busqueda = {
 }
 
 def mover(move,click = False):
-    time.sleep(2)
+    
     position = pt.locateCenterOnScreen(move)
     print(position)
     pt.moveTo(position) 
     if click == True:
         pt.click(button="left")
+    time.sleep(1)
     pass
 
-mover(busqueda["play"])
+
+def reanudar():
+    time.sleep(2)
+    mover(busqueda["play"],True)
+    mover(busqueda["opciones_inicio"])
+    mover_abajo = pt.Point(0,10)
+    pt.moveRel(mover_abajo)
+    pt.click(button="left")
+    mover(busqueda["opciones_cancelar"])
+    mover(busqueda["aceptar"],True)
+    pass
+
+def detener():
+    time.sleep(2)
+    mover(busqueda["pausa"])
+    mover(busqueda["pausa_causa"],True)
+    mover(busqueda["detener"],True)
+    pass
+
+reanudar()
+time.sleep(2)
+detener()
